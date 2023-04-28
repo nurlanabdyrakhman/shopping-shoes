@@ -17,3 +17,4 @@ samples, guidance on mobile development, and a full API reference.
 # shoping_hotc
 # shoping_hotic
 # shoping-hotic
+# shoping-hotic
