@@ -18,6 +18,7 @@ class HomeView extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text('Discover',style: AppThemes.homeAppBar,),
+          actions: [IconButton(onPressed: (){}, icon: Icon(Icons.add))],
         ),
       ));
   }
