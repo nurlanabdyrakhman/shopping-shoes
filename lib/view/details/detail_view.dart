@@ -4,18 +4,25 @@ import 'package:shoping_hotic/data/dammy_data.dart';
 import 'package:shoping_hotic/models/shoe_model.dart';
 import 'package:shoping_hotic/utils/constants.dart';
 import 'package:shoping_hotic/view/details/components/app_bar.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../theme/custom-app_theme.dart';
 
-class DetailView extends StatelessWidget {
+class DetailView extends StatefulWidget {
   DetailView(
       {super.key, required this.madel, required this.isComeFromMoreSection});
   final ShoeModel madel;
   final bool isComeFromMoreSection;
+
+  @override
+  State<DetailView> createState() => _DetailViewState();
+}
+
+class _DetailViewState extends State<DetailView> {
+  bool _isCountrySelected = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    //ShoeModel model =availableShoes[index];
+
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -41,24 +48,121 @@ class DetailView extends StatelessWidget {
                     _productNameAndPrice(),
                     _productShoeInfo(size.width, size.height),
                     _moreDetailsText(size.width, size.height),
-                    Row(
-                      children: const [
-                        Text(
-                          'Size',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppConstantsColor.darkTextColor,
-                              fontSize: 22,),
+                    _sideAndCountCategorySection(size),
+                    Container(
+                      width: size.width,
+                      height: size.height * 0.07,
+                      color: Colors.red,
+                      child: FadeAnimation(
+                        delay: 3,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: size.width / 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const[
+                                    Text(
+                                      'Try it',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                     Text(
+                                      'sil',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                     SizedBox(width: 8,),
+                                    RotatedBox(quarterTurns: -1,
+                                    child: FaIcon(FontAwesomeIcons.shoePrints),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        
-                        
-                      ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _sideAndCountCategorySection(Size size) {
+    return FadeAnimation(
+      delay: 2.5,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Size',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: AppConstantsColor.darkTextColor,
+                fontSize: 22,
+              ),
+            ),
+            SizedBox(
+              width: size.width * 0.45,
+              height: size.height * 0.05,
+              child: Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _isCountrySelected = false;
+                      });
+                    },
+                    child: Text(
+                      'UK',
+                      style: TextStyle(
+                          fontWeight: _isCountrySelected
+                              ? FontWeight.w400
+                              : FontWeight.bold,
+                          color: _isCountrySelected
+                              ? Colors.grey
+                              : AppConstantsColor.darkTextColor,
+                          fontSize: 19),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _isCountrySelected = true;
+                      });
+                    },
+                    child: Text(
+                      'USA',
+                      style: TextStyle(
+                          fontWeight: !_isCountrySelected
+                              ? FontWeight.w400
+                              : FontWeight.bold,
+                          color: !_isCountrySelected
+                              ? Colors.grey
+                              : AppConstantsColor.darkTextColor,
+                          fontSize: 19),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -96,7 +200,7 @@ class DetailView extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            madel.model,
+            widget.madel.model,
             style: const TextStyle(
               fontSize: 21,
               fontWeight: FontWeight.bold,
@@ -106,7 +210,7 @@ class DetailView extends StatelessWidget {
           Expanded(
             child: Container(),
           ),
-          Text('\$${madel.price.toStringAsFixed(2)}',
+          Text('\$${widget.madel.price.toStringAsFixed(2)}',
               style: AppThemes.detailsProductPrice)
         ],
       ),
@@ -132,7 +236,7 @@ class DetailView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.grey[300],
                         image: DecorationImage(
-                          image: AssetImage(madel.imgAddress),
+                          image: AssetImage(widget.madel.imgAddress),
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
                               Colors.grey.withOpacity(1), BlendMode.darken),
@@ -171,7 +275,7 @@ class DetailView extends StatelessWidget {
                 width: size.width,
                 height: size.height / 2.2,
                 decoration: BoxDecoration(
-                    color: madel.modelColor,
+                    color: widget.madel.modelColor,
                     borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(1500),
                         bottomRight: Radius.circular(100))),
@@ -182,14 +286,16 @@ class DetailView extends StatelessWidget {
             top: 100,
             left: 30,
             child: Hero(
-              tag: isComeFromMoreSection ? madel.model : madel.imgAddress,
+              tag: widget.isComeFromMoreSection
+                  ? widget.madel.model
+                  : widget.madel.imgAddress,
               child: RotationTransition(
                 turns: AlwaysStoppedAnimation(-25 / 360),
                 child: Container(
                   width: size.width / 1.3,
                   height: size.height / 4.3,
                   child: Image(
-                    image: AssetImage(madel.imgAddress),
+                    image: AssetImage(widget.madel.imgAddress),
                   ),
                 ),
               ),
@@ -210,7 +316,7 @@ class DetailView extends StatelessWidget {
         color: Colors.grey[300],
       ),
       child: Image(
-        image: AssetImage(madel.imgAddress),
+        image: AssetImage(widget.madel.imgAddress),
       ),
     );
   }
