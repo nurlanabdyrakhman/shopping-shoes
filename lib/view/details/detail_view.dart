@@ -19,6 +19,7 @@ class DetailView extends StatefulWidget {
 
 class _DetailViewState extends State<DetailView> {
   bool _isCountrySelected = false;
+  int? _isSizeSelected;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -50,12 +51,14 @@ class _DetailViewState extends State<DetailView> {
                     _moreDetailsText(size.width, size.height),
                     _sideAndCountCategorySection(size),
                     Container(
+                      margin: const EdgeInsets.only(top: 8.0),
                       width: size.width,
                       height: size.height * 0.07,
-                      color: Colors.red,
+                     
                       child: FadeAnimation(
                         delay: 3,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
                               width: size.width / 4.5,
@@ -69,23 +72,65 @@ class _DetailViewState extends State<DetailView> {
                               child: Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const[
+                                  children: const [
                                     Text(
                                       'Try it',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w800),
                                     ),
-                                     Text(
-                                      'sil',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800),
+                                    SizedBox(
+                                      width: 8,
                                     ),
-                                     SizedBox(width: 8,),
-                                    RotatedBox(quarterTurns: -1,
-                                    child: FaIcon(FontAwesomeIcons.shoePrints),
-                                    )
+                                    RotatedBox(
+                                      quarterTurns: -1,
+                                      child:
+                                          FaIcon(FontAwesomeIcons.shoePrints),
+                                    ),
                                   ],
                                 ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: size.width * 0.7,
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: 4,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isSizeSelected = index;
+                                      });
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(right: 5),
+                                      width: size.width * 0.15,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: _isSizeSelected == index
+                                                  ? Colors.black
+                                                  : Colors.grey,width: 1.5),
+                                                  color: _isSizeSelected == index
+                                                  ? Colors.black
+                                                  : AppConstantsColor.backgroundColor
+                                                  ),
+                                      child: Center(
+                                        child: Text(
+                                          sizes[index].toString(),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: _isSizeSelected == index
+                                                  ? Colors.white
+                                                  : Colors.black),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ],
