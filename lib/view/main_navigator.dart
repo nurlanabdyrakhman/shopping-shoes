@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:shoping_hotic/utils/constants.dart';
+import 'package:shoping_hotic/view/cart/cart_bag_view.dart';
+import 'package:shoping_hotic/view/user_profile/user_profile_view.dart';
 import 'package:shoping_hotic/view/view.dart';
 
 class MainNavigator extends StatefulWidget {
@@ -15,16 +17,9 @@ class _MainNavigatorState extends State<MainNavigator> {
   PageController _pageController = PageController();
   int _selectedIndex = 0;
   List<Widget> _screen = [
-  HomeView(),
-    Container(
-      color: Colors.yellow,
-    ),
-    Container(
-      color: Colors.blue,
-    ),
-    Container(
-      color: Colors.purple,
-    )
+    HomeView(),
+    CartBagView(),
+    UserProfileView(),
   ];
 
   void _onItemTapped(int index) {

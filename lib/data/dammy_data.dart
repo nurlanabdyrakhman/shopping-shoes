@@ -61,7 +61,9 @@ final List<ShoeModel> availableShoes = [
   ),
 ];
 
-List<ShoeModel> itemsOnBag = [];
+List<ShoeModel> itemsOnBag = [
+  
+];
 
 final List<UserStatus> userStatus = [
   UserStatus(

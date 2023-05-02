@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shoping_hotic/animation/fadeanimation.dart';
 import 'package:shoping_hotic/data/dammy_data.dart';
 import 'package:shoping_hotic/models/shoe_model.dart';
+import 'package:shoping_hotic/utils/app_methots.dart';
 import 'package:shoping_hotic/utils/constants.dart';
 import 'package:shoping_hotic/view/details/components/app_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -33,118 +34,154 @@ class _DetailViewState extends State<DetailView> {
           //color: Colors.red.withOpacity(0.2),
           width: size.width,
           height: size.height * 1.1,
-          child: Column(
-            children: [
-              _topProductImageandBg(size),
-              _morePicOfProduct(size),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Divider(),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _productNameAndPrice(),
-                    _productShoeInfo(size.width, size.height),
-                    _moreDetailsText(size.width, size.height),
-                    _sideAndCountCategorySection(size),
-                    Container(
-                      margin: const EdgeInsets.only(top: 8.0),
-                      width: size.width,
-                      height: size.height * 0.07,
-                     
-                      child: FadeAnimation(
-                        delay: 3,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              width: size.width / 4.5,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 2,
-                                ),
-                              ),
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      'Try it',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    RotatedBox(
-                                      quarterTurns: -1,
-                                      child:
-                                          FaIcon(FontAwesomeIcons.shoePrints),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: size.width * 0.7,
-                              child: ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                itemCount: 4,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _isSizeSelected = index;
-                                      });
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(right: 5),
-                                      width: size.width * 0.15,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: _isSizeSelected == index
-                                                  ? Colors.black
-                                                  : Colors.grey,width: 1.5),
-                                                  color: _isSizeSelected == index
-                                                  ? Colors.black
-                                                  : AppConstantsColor.backgroundColor
-                                                  ),
-                                      child: Center(
-                                        child: Text(
-                                          sizes[index].toString(),
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: _isSizeSelected == index
-                                                  ? Colors.white
-                                                  : Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                _topProductImageandBg(size),
+                _morePicOfProduct(size),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: Divider(),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _productNameAndPrice(),
+                      _productShoeInfo(size.width, size.height),
+                      _moreDetailsText(size.width, size.height),
+                      _sideAndCountCategorySection(size),
+                      _buttomSizeselection(size),
+                      _addToBagButton(size),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Align _addToBagButton(Size size) {
+    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: FadeAnimation(
+                          delay: 3.5,
+                          child: MaterialButton(
+                            minWidth: size.width/1.2,
+                            height: size.height/15,
+                            //color: AppConstantsColor.materialButtonColor,
+                             color: widget.madel.modelColor,
+                            shape: RoundedRectangleBorder(
+                             borderRadius: BorderRadius.circular(12)
+                            ),
+                            onPressed: (){
+                              /// After desing 
+                              AppMethods.addToCart(widget.madel, context);
+                            },
+                          child: const Text('ABD TO BAG',
+                          style: TextStyle(color: AppConstantsColor.lightTextColor),
+                          ),
+                          ),
+                        ),
+                      ),
+                    );
+  }
+
+  Widget _buttomSizeselection(Size size) {
+    return Container(
+                    margin: const EdgeInsets.only(top: 8.0),
+                    width: size.width,
+                    height: size.height * 0.07,
+                   
+                    child: FadeAnimation(
+                      delay: 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: size.width / 4.5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.grey,
+                                width: 2,
+                              ),
+                            ),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'Try it',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  RotatedBox(
+                                    quarterTurns: -1,
+                                    child:
+                                        FaIcon(FontAwesomeIcons.shoePrints),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: size.width * 0.7,
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: 4,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _isSizeSelected = index;
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 5),
+                                    width: size.width * 0.15,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10),
+                                        border: Border.all(
+                                            color: _isSizeSelected == index
+                                                ? Colors.black
+                                                : Colors.grey,width: 1.5),
+                                                color: _isSizeSelected == index
+                                                ? Colors.black
+                                                : AppConstantsColor.backgroundColor
+                                                ),
+                                    child: Center(
+                                      child: Text(
+                                        sizes[index].toString(),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: _isSizeSelected == index
+                                                ? Colors.white
+                                                : Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
   }
 
   Widget _sideAndCountCategorySection(Size size) {
@@ -353,7 +390,7 @@ class _DetailViewState extends State<DetailView> {
 
   roundedImage(width, height) {
     return Container(
-      padding: EdgeInsets.all(2),
+      padding: const EdgeInsets.all(2),
       width: width / 5,
       height: height / 14,
       decoration: BoxDecoration(
