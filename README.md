@@ -14,16 +14,3 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-# shoping_hotc
-# shoping_hotic
-# shoping-hotic
-# shoping-hotic
-# shoes-shopping
-# shoes-shopping
-# shoes-shopping
-# shopping-shoes
-# shopping-shoes
-# shopping-shoes
-# shopping-shoes
-# shoes_app
-# shopping-shoes
